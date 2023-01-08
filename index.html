@@ -15,9 +15,8 @@
     <link
       rel="stylesheet"
       href="assets/styles/app.css" />
-    <!-- 해당 스크립트 실행 
-    단점: 스크립트가 완료되기 전까지는 페이지가 렌더링되지X-->
-    <!-- <script src="assets/scripts/my-script.js"></script> -->
+      <script src="assets/scripts/vendor.js" defer></script>
+      <script src="assets/scripts/myFunctions.js" defer></script>
   </head>
   <body>
     <header>
@@ -55,10 +54,5 @@
       <h2 id="current-calculation">0</h2>
       <h2>Result: <span id="current-result">0</span></h2>
     </section>
-    <!-- 브라우저가 스크립트를 실행하기 전에 먼저 모든 HTML코드를 분석하고 렌더링을
-    끝내도록함. -->
-    <script src="assets/scripts/vendor.js"></script>
-    <!-- <script src="assets/scripts/myScript.js"></script>  -->
-    <script src="assets/scripts/myFunctions.js"></script>
   </body>
 </html>

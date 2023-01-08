@@ -1,24 +1,89 @@
-
-//  함수
-//스크립트를 실행하기 전에 자동으로 모든 함수를 등록함. -> 함수를 두는 위치는 상관X
 const defaultResult = 0;
 let currentResult = defaultResult;
+let logEntries = [];
 
-function add(number1, number2) {
-    //함수의 내용과 작동 방법을 정의
-    const result = number1 + number2;
-    return result;
-    //return : result에 저장된 값을 반환
+// Gets input from input field (입력 필드에서 입력값 가져옴)
+function getUserNumberInput() {
+    return parseInt(userInput.value);
 }
-// block scope: The scope created with a pair of a block(curly braces)
-//declare a variable within a function, it is called a local variable, because it is available only within that function.
+// Generates and writes calculation log (계산 로그 생성과 작성)
+function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {
+    const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
+    outputResult(currentResult, calcDescription); //from vendor file
+}
 
-const additionResult = add(10, 20);
+function writeToLog(
+    operationIdentifier,
+    prevResult,
+    operationNumber,
+    newResult
+) {
+    const logEntry = {
+        operation: operationIdentifier,
+        prevResult: prevResult ,//객체내에서 키값:인자의 이름
+        number: operationNumber,  
+        result: newResult   
+    };
+    logEntries.push(logEntry);
+    console.log(logEntries);
+}
 
-currentResult = additionResult;
+function calculateResult(calculationType) {
+//하위 조건문이 전부 참이어야 참을 반환한다.
+    if (
+        calculationType !== 'ADD' &&
+        calculationType !== 'SUBTRACT' &&
+        calculationType !== 'MULTIPY' &&
+        calculationType !== 'DIVIDE'
+    ) {
+        return;
+    } 
+// //하위 조건문 중 하나이상 참이면 참을 반환한다.
+// if (
+//     calculationType !== 'ADD' ||
+//     calculationType !== 'SUBTRACT' ||
+//     calculationType !== 'MULTIPY' ||
+//     calculationType !== 'DIVIDE'
+// )
+    const enteredNumber = getUserNumberInput();
+    const initialResult = currentResult;
+    let mathOperator;
+    if (calculationType === 'ADD') {
+        currentResult +=enteredNumber;
+        mathOperator = '+';
+    } else if (calculationType === 'SUBTRACT') {
+        currentResult -= enteredNumber;
+        mathOperator = '-';
+    } else if (calculationType === 'MULTIPY') {
+        currentResult *= enteredNumber;
+        mathOperator = '*';
+    } else if (calculationType === 'DIVIDE') {
+        currentResult /= enteredNumber;
+        mathOperator = '/';
+    }
 
-let calculationDescription = `(${defaultResult} + 10) * 5`;     //(0 + 10) * 5 출력  
-//`{변수 또는 상수}` --> Template literals
-//계산의 결과 또는 변수나 상수에 저장된 값 등의 동적인 값을 텍스트 내부에 주입하고자 할 때
+    createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+    writeToLog(calculateResult, initialResult, enteredNumber, currentResult);
+}
 
-outputResult(currentResult, calculationDescription);
+function add() {
+    calculateResult('add');
+}
+
+function subtract() {
+    calculateResult('SUBTRACT');
+}
+
+function multiply() {
+    calculateResult('MULTIPLY');
+}
+
+function divide() {
+    calculateResult('DIVIDE');
+}
+
+addBtn.addEventListener('click', add); //클릭이 발생할 때 함수를 실행하도록함.
+subtractBtn.addEventListener('click', subtract);
+multiplyBtn.addEventListener('click', multiply);
+divideBtn.addEventListener('click', divide);
+
